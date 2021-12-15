@@ -14,9 +14,6 @@ class _SingleImpl extends Single {
   final List<SingleFinder> finders = [];
 
   @override
-  bool operator >>>(Type type) => _has(type);
-
-  @override
   void operator |(SingleFinder finder) {
     finders.removeWhere((element) => element.runtimeType == finder.runtimeType);
     finders.add(finder);
@@ -57,6 +54,4 @@ class _SingleImpl extends Single {
 
     throw Exception('No factory or finder for type $T');
   }
-
-  bool _has<T extends Object>(T type) => _find<T>().runtimeType == type;
 }

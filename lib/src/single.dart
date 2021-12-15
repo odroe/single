@@ -29,9 +29,6 @@ abstract class Single {
   ///
   /// [finder] The finder to find the singleton.
   void operator |(SingleFinder finder);
-
-  /// Has the singleton been registered?
-  bool operator >>>(Type type);
 }
 
 /// Singleton container.

@@ -29,6 +29,7 @@ MyClass myClass = single<MyClass>();
 > `Use annotations to automatically register singletons.` Need to learn more about related technologies:
 > - `source_gen`? - But this method is not elegant
 > - `dart:mirrors`? - This is ideal, but Flutter does not support it! Whether Single really needs to be used in Flutter is still uncertain. We currently use it on the Dart server.
+>    Here is a reflection example：https://github.com/odroe/single/tree/mirrors However, bugs were encountered during development.
 
 ## License
 
