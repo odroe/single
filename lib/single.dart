@@ -4,4 +4,7 @@
 
 library single;
 
-export 'src/single.dart';
+export 'src/single.dart' hide single;
+
+export 'src/annotations.dart';
+export 'src/mirror_finder.dart' show single;
