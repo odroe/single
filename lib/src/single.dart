@@ -7,11 +7,14 @@ part 'single.impl.dart';
 /// Single object factory.
 typedef SingleFactory<T extends Object> = T Function();
 
+/// Finder abstract class.
+abstract class SingleFinder {
+  /// Find singleton, return a [SingleFactory].
+  SingleFactory<T>? call<T extends Object>();
+}
+
 // Single abstract class.
 abstract class Single {
-  /// Get registed singleton factory.
-  List<SingleFactory<Object>> get factories;
-
   /// Get a singleton.
   ///
   /// [T] The type of the singleton.
@@ -21,6 +24,14 @@ abstract class Single {
   ///
   /// [creator] The factory to create the singleton.
   void operator +(SingleFactory factory);
+
+  /// Register a finder.
+  ///
+  /// [finder] The finder to find the singleton.
+  void operator |(SingleFinder finder);
+
+  /// Has the singleton been registered?
+  bool operator >>>(Type type);
 }
 
 /// Singleton container.

@@ -4,9 +4,22 @@
 
 part of 'single.dart';
 
-class _SingleImpl implements Single {
+class _SingleImpl extends Single {
   _SingleImpl() {
     _register<Single>(() => this);
+  }
+
+  final Map<Type, Object> singletons = {};
+  final List<SingleFactory> factories = [];
+  final List<SingleFinder> finders = [];
+
+  @override
+  bool operator >>>(Type type) => _has(type);
+
+  @override
+  void operator |(SingleFinder finder) {
+    finders.removeWhere((element) => element.runtimeType == finder.runtimeType);
+    finders.add(finder);
   }
 
   @override
@@ -15,33 +28,35 @@ class _SingleImpl implements Single {
   @override
   T call<T extends Object>() => _find<T>();
 
-  @override
-  List<SingleFactory<Object>> get factories => _factories;
-
-  final Map<Type, Object> _singletons = {};
-  final List<SingleFactory<Object>> _factories = [];
-
   void _register<T extends Object>(SingleFactory<T> factory) {
-    if (_factories
+    if (factories
         .any((element) => element.runtimeType == factory.runtimeType)) {
       throw Exception('Factory of type $T has been registered');
     }
 
-    _factories.add(factory);
+    factories.add(factory);
   }
 
   T _find<T extends Object>() {
-    if (_singletons.containsKey(T)) {
-      return _singletons[T] as T;
+    if (singletons.containsKey(T)) {
+      return singletons[T] as T;
     }
 
-    if (!factories.any((element) => element.runtimeType == SingleFactory<T>)) {
-      throw Exception('Factory of type $T has not been registered');
+    if (factories.any((element) => element.runtimeType == SingleFactory<T>)) {
+      final SingleFactory<T> factory =
+          factories.whereType<SingleFactory<T>>().single;
+      return singletons[factory.runtimeType] = factory();
     }
 
-    final SingleFactory<T> factory =
-        factories.whereType<SingleFactory<T>>().single;
+    for (final finder in finders) {
+      final SingleFactory<T>? factory = finder<T>();
+      if (factory is SingleFactory<T>) {
+        return singletons[factory.runtimeType] = factory();
+      }
+    }
 
-    return _singletons[factory.runtimeType] = factory.call();
+    throw Exception('No factory or finder for type $T');
   }
+
+  bool _has<T extends Object>(T type) => _find<T>().runtimeType == type;
 }
