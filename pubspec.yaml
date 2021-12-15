@@ -1,0 +1,14 @@
+# Copyright (c) 2021, Odroe Inc. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+name: single
+description: Singleton mode container to store global singleton resources.
+version: 1.0.0
+repository: https://github.com/odroe/single
+
+environment:
+  sdk: '>=2.15.0 <3.0.0'
+
+dev_dependencies:
+  lints: ^1.0.0
