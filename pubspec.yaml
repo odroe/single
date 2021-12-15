@@ -4,7 +4,7 @@
 
 name: single
 description: Singleton mode container to store global singleton resources.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/odroe/single
 
 environment:
