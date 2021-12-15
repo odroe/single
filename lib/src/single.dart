@@ -2,10 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-part 'single.impl.dart';
+import 'factory.dart';
 
-/// Single object factory.
-typedef SingleFactory<T extends Object> = T Function();
+part 'single.impl.dart';
 
 // Single abstract class.
 abstract class Single {
